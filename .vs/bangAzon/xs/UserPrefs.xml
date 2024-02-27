@@ -1,3 +1,33 @@
-﻿<Properties StartupConfiguration="{29B8C688-2C59-4FFF-B807-83104C256E0D}|https">
+﻿<Properties GitUserInfo="UsingMD" StartupConfiguration="{29B8C688-2C59-4FFF-B807-83104C256E0D}|https">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Models/Order.cs">
+    <Files>
+      <File FileName="Models/Orders.cs" Line="4" Column="20" />
+      <File FileName="Models/Products.cs" Line="4" Column="22" />
+      <File FileName="Models/User.cs" Line="13" Column="2" />
+      <File FileName="Models/PaymentType.cs" Line="7" Column="33" />
+      <File FileName="Models/ProductOrders.cs" Line="4" Column="27" />
+      <File FileName="Models/Categories.cs" Line="4" Column="23" />
+      <File FileName="BangazonDBContext.cs" Line="66" Column="117" />
+      <File FileName="Program.cs" Line="29" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="bangAzon" expanded="True">
+            <Node name="bangAzon" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True" />
+              </Node>
+              <Node name="Models" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.bangAzon PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
