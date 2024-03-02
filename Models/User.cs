@@ -9,7 +9,7 @@ namespace bangAzon.Models
 		public bool isSeller { get; set; }
 		public int storeId { get; set; }
 
-		public virtual PaymentType paymentType { get; set; }
+		public ICollection<PaymentType> paymentType { get; set; }
 
 	}
 }

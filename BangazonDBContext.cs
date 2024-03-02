@@ -67,6 +67,12 @@ public class BangazonDBContext : DbContext
             
 
         });
+        modelBuilder.Entity<PaymentType>()
+               .HasOne(pt => pt.users)
+               .WithMany(u => u.paymentType)
+               .HasForeignKey(pt => pt.userId); 
+
+        base.OnModelCreating(modelBuilder);
     }
 }
 

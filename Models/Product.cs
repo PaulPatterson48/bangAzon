@@ -14,7 +14,7 @@ namespace bangAzon.Models
 		public DateTime createDate { get; set; }
 
 		public virtual ProductOrder productOrders { get; set; }
-		public virtual User users { get; set; }
+		public ICollection<User> users { get; set; }
 
 		public decimal TotalPrice
 		{
