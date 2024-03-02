@@ -5,6 +5,7 @@ namespace bangAzon.Models
 	{
 		public int id { get; set; }
 		public string name { get; set; }
+		public virtual User users { get; set; }
 
 	}
 }

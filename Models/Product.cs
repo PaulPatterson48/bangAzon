@@ -10,7 +10,20 @@ namespace bangAzon.Models
 		public decimal unitPrice { get; set; } = 0.00M;
 		public int categoryId { get; set; }
 		public int sellerId { get; set; }
-		public DateTime createDate { get; set; }	
+		public int customerId { get; set; }
+		public DateTime createDate { get; set; }
+
+		public virtual ProductOrder productOrders { get; set; }
+		public virtual User users { get; set; }
+
+		public decimal TotalPrice
+		{
+			get
+			{ 
+			
+				return unitPrice * quantity;
+			}
+		}
 	}
 }
 

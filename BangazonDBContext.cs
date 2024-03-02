@@ -28,9 +28,9 @@ public class BangazonDBContext : DbContext
 
         modelBuilder.Entity<Order>().HasData(new Order[]
         {
-            new Order {id = 1, customerId = 1, paymentTypeId = 1, orderStatus = true, orderDate = new DateTime (2022-05-07)},
-            new Order {id = 2, customerId = 2, paymentTypeId = 2, orderStatus = true, orderDate = new DateTime (2023-04-08)},
-            new Order {id = 3, customerId = 3, paymentTypeId = 3, orderStatus = true, orderDate = new DateTime (2022-06-09) },
+            new Order {id = 1, customerId = 1, paymentTypeId = 1, orderStatus = true, orderDate = new DateTime (2022,05,07)},
+            new Order {id = 2, customerId = 2, paymentTypeId = 2, orderStatus = true, orderDate = new DateTime (2023,04,08)},
+            new Order {id = 3, customerId = 3, paymentTypeId = 3, orderStatus = true, orderDate = new DateTime (2022,06,09) },
         });
 
         modelBuilder.Entity<PaymentType>().HasData(new PaymentType[]
