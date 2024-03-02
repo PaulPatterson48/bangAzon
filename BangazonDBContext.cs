@@ -61,9 +61,9 @@ public class BangazonDBContext : DbContext
 
         modelBuilder.Entity<User>().HasData(new User[]
         {
-            new User {id = 1, name = "John Doe", email = "johndoe@bangazon.com", isSeller = true, storeId = 1 },
-            new User {id = 2, name = "Jane Doe", email = "janedoe@bangazon.com", isSeller = true, storeId = 1 },
-            new User {id = 3, name = "Luca Bonini", email = "lbonini@bangazon.com", isSeller = false, storeId = 1 },
+            new User {userId = 1, name = "John Doe", email = "johndoe@bangazon.com", isSeller = true, storeId = 1 },
+            new User {userId = 2, name = "Jane Doe", email = "janedoe@bangazon.com", isSeller = true, storeId = 1 },
+            new User {userId = 3, name = "Luca Bonini", email = "lbonini@bangazon.com", isSeller = false, storeId = 1 },
             
 
         });
