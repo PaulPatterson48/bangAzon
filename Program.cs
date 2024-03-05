@@ -51,7 +51,7 @@ app.MapPost("/api/orders", (BangazonDBContext db, Order order) =>
     return Results.Created($"/api/order/{order.id}", order);
 });
 
-app.MapDelete("/api/orders/{id}", (BangazonDBContext db, int id) =>
+app.MapDelete("/api/singleorder/{id}", (BangazonDBContext db, int id) =>
 {
     Order order = db.Orders.SingleOrDefault(order => order.id == id);
     if (order == null)
@@ -77,7 +77,7 @@ app.MapGet("/api/orders/{id}", (BangazonDBContext db, int id) =>
     return Results.Ok(order);
 });
 //Allow user to view Product Details
-app.MapGet("/api/products/{id}", (BangazonDBContext db, int id) =>
+app.MapGet("/api/productdetails/{id}", (BangazonDBContext db, int id) =>
 {
     var product = db.Products
         .Include(p => p.categoryId) 
@@ -358,64 +358,6 @@ app.MapGet("/api/sellers/search", (BangazonDBContext db, string searchText) =>
     }
 
     return Results.Ok(matchedSellers);
-});
-// Customer can choose a payment method when purchasing
-app.MapPost("/api/orders/checkout", async (BangazonDBContext db, HttpContext httpContext, int paymentTypeId) =>
-{
-    // Assuming you have a logged-in customer, retrieve their ID from the authentication token
-    // For demonstration purposes, let's assume the customer ID is obtained from the request header
-    if (!httpContext.Request.Headers.ContainsKey("CustomerId"))
-    {
-        return Results.BadRequest("Customer ID is missing from the request header.");
-    }
-
-    int customerId;
-    if (!int.TryParse(httpContext.Request.Headers["CustomerId"], out customerId))
-    {
-        return Results.BadRequest("Invalid customer ID format in the request header.");
-    }
-
-    // Retrieve the customer's payment types
-    var customerPaymentTypes = await db.PaymentTypes
-        .Include(pt => pt.users)
-        .Where(pt => pt.users.userId == customerId)
-        .ToListAsync();
-
-    // Check if the specified payment type belongs to the customer
-    var selectedPaymentType = customerPaymentTypes.FirstOrDefault(pt => pt.id == paymentTypeId);
-    if (selectedPaymentType == null)
-    {
-        return Results.BadRequest("Invalid payment type selected. Please choose a payment type associated with the customer.");
-    }
-
-    // Get the customer's shopping cart
-    var shoppingCart = await db.ProductOrders
-        .Include(sc => sc.products)
-        .FirstOrDefaultAsync(sc => sc.orders.customerId == customerId);
-
-    if (shoppingCart == null )
-    {
-        return Results.BadRequest("Shopping cart is empty.");
-    }
-
-    // Create an order from the shopping cart
-    var order = new Order
-    {
-        customerId = customerId,
-        paymentTypeId = paymentTypeId,
-        orderDate = DateTime.UtcNow,
-
-    };
-
-    // Add the order to the database
-    db.Orders.Add(order);
-    await db.SaveChangesAsync();
-
-    // Clear the customer's shopping cart
-    db.ProductOrders.Remove(shoppingCart);
-    await db.SaveChangesAsync();
-
-    return Results.Created($"/api/orders/{order.id}", order);
 });
 
 // Customer can view their profile
