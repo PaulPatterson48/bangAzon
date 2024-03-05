@@ -10,7 +10,7 @@ namespace bangAzon.Models
 		public decimal unitPrice { get; set; } = 0.00M;
 		public int categoryId { get; set; }
 		public int sellerId { get; set; }
-		public int customerId { get; set; }
+		public int? customerId { get; set; }
 		public DateTime createDate { get; set; }
 
 		//public ICollection<ProductOrder> productOrders { get; set; }
