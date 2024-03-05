@@ -8,7 +8,7 @@ namespace bangAzon.Models
 		public int? paymentTypeId { get; set; }
 		public bool orderStatus { get; set; }
 		public DateTime orderDate { get; set; }
-		public int sellerId { get; set; }
+		//public int sellerId { get; set; }
         //public bool requiresShipping { get; set; }
 
 

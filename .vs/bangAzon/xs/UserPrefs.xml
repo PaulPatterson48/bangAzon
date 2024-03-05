@@ -1,19 +1,17 @@
-﻿<Properties StartupConfiguration="{29B8C688-2C59-4FFF-B807-83104C256E0D}|https" GitUserInfo="UsingMD">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+﻿<Properties GitUserInfo="UsingMD" StartupConfiguration="{29B8C688-2C59-4FFF-B807-83104C256E0D}|https">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.bangAzon PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BangazonDBContext.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="Models/User.cs" Line="10" Column="3" />
-      <File FileName="Program.cs" Line="340" Column="35" />
-      <File FileName="Models/PaymentType.cs" Line="9" Column="3" />
-      <File FileName="BangazonDBContext.cs" Line="72" Column="45" />
-      <File FileName="Models/Product.cs" Line="17" Column="3" />
-      <File FileName="Models/ProductOrder.cs" Line="12" Column="6" />
-      <File FileName="Models/Order.cs" Line="11" Column="2" />
+      <File FileName="Models/User.cs" />
+      <File FileName="Program.cs" Line="402" Column="1" />
+      <File FileName="Models/PaymentType.cs" />
+      <File FileName="BangazonDBContext.cs" Line="50" Column="86" />
+      <File FileName="Models/Product.cs" Line="13" Column="5" />
+      <File FileName="Models/ProductOrder.cs" />
+      <File FileName="Models/Order.cs" Line="11" Column="5" />
       <File FileName="Properties/launchSettings.json" />
       <File FileName="Models/Category.cs" />
     </Files>
@@ -22,7 +20,6 @@
         <State name="__root__">
           <Node name="bangAzon">
             <Node name="bangAzon">
-              <Node name="Models" expanded="True" />
               <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
@@ -30,5 +27,7 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>

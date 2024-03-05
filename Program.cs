@@ -76,9 +76,7 @@ app.MapGet("/api/orders/{id}", (BangazonDBContext db, int id) =>
 //Allow user to view Product Details
 app.MapGet("/api/productdetails/{id}", (BangazonDBContext db, int id) =>
 {
-    var product = db.Products
-        .Include(p => p.categoryId) 
-        .SingleOrDefault(p => p.id == id);
+    var product = db.Products.FirstOrDefault(p => p.id == id);
 
     if (product == null)
     {
@@ -302,7 +300,7 @@ app.MapPost("/api/orders/checkout", async (BangazonDBContext db, HttpContext htt
 
     // Retrieve the customer's payment types
     var customerPaymentTypes = await db.PaymentTypes
-        .Where(pt => pt.users.userId == customerId)
+        //.Where(pt => pt.users.userId == customerId)
         .ToListAsync();
 
     //// Check if the specified payment type belongs to the customer

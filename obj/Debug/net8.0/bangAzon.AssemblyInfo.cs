@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bangAzon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be90a0e4bd68105553f41439dce6da8e36b1fc55")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c38a675778e5f2f2f09758ad36f784497bc9e212")]
 [assembly: System.Reflection.AssemblyProductAttribute("bangAzon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bangAzon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
