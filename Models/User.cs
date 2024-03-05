@@ -7,7 +7,7 @@ namespace bangAzon.Models
 		public string? name { get; set; }
 		public string? email { get; set; }
 		public bool isSeller { get; set; }
-		public int storeId { get; set; }
+		//public int storeId { get; set; }
 
 		public ICollection<PaymentType> paymentType { get; set; }
 

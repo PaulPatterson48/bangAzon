@@ -38,10 +38,10 @@ app.MapGet("/api/products", (BangazonDBContext db) =>
 {
     return db.Products.ToList();
 });
-
+//Get single product
 app.MapGet("/api/products/{id}", (BangazonDBContext db, int id) =>
 {
-    return db.Products.Include(p => p.categoryId).Single(p => p.id == id);
+    return db.Products.FirstOrDefault(p => p.id == id);
 });
 
 app.MapPost("/api/orders", (BangazonDBContext db, Order order) =>
@@ -64,14 +64,11 @@ app.MapDelete("/api/singleorder/{id}", (BangazonDBContext db, int id) =>
 
 app.MapGet("/api/orders/{id}", (BangazonDBContext db, int id) =>
 {
-    var order = db.Orders
-        .Include(o => o.Products)
-            .ThenInclude(op => op.productOrders) 
-        .SingleOrDefault(o => o.id == id);
+    var order = db.Orders.SingleOrDefault(o => o.id == id);
 
     if (order == null)
     {
-        return Results.NotFound();
+        return Results.NotFound("No Orders");
     }
 
     return Results.Ok(order);
@@ -95,80 +92,80 @@ app.MapGet("/api/customers/{customerId}/orders/completed", (BangazonDBContext db
 {
     var completedOrders = db.Orders
         .Where(o => o.customerId == customerId && o.orderStatus) 
-        .Include(o => o.Products)
-            .ThenInclude(op => op.productOrders) 
+        //.Include(o => o.Products)
+            //.ThenInclude(op => op.productOrders) 
         .OrderByDescending(o => o.orderDate)
         .ToList();
 
     return Results.Ok(completedOrders);
 });
 //Seller dashboard
-app.MapGet("/api/seller/dashboard", (BangazonDBContext db, HttpContext httpContext) =>
-{
-    // Get the seller ID from the authenticated user
-    var loggedInSellerId = httpContext.User.Claims.FirstOrDefault(c => c.Type == "SellerId")?.Value;
+//app.MapGet("/api/seller/dashboard", (BangazonDBContext db, HttpContext httpContext) =>
+//{
+//    // Get the seller ID from the authenticated user
+//    var loggedInSellerId = httpContext.User.Claims.FirstOrDefault(c => c.Type == "SellerId")?.Value;
 
-    if (string.IsNullOrEmpty(loggedInSellerId))
-    {
-        // Return an unauthorized response or handle the case where the seller ID is not found
-        return Results.Unauthorized();
-    }
+//    if (string.IsNullOrEmpty(loggedInSellerId))
+//    {
+//        // Return an unauthorized response or handle the case where the seller ID is not found
+//        return Results.Unauthorized();
+//    }
 
-    int sellerId = int.Parse(loggedInSellerId);
+//    int sellerId = int.Parse(loggedInSellerId);
 
-    // Calculate Total Sales
-    var totalSales = db.ProductOrders
-        .Where(o => o.products.sellerId == sellerId && o.orders.orderStatus)
-        .Sum(o => o.products.TotalPrice);
+//    // Calculate Total Sales
+//    var totalSales = db.ProductOrders
+//        .Where(o => o.products.sellerId == sellerId && o.orders.orderStatus)
+//        .Sum(o => o.products.TotalPrice);
 
-    // Calculate Total Sales for this month
-    var totalSalesThisMonth = db.ProductOrders
-        .Where(o => o.products.sellerId == sellerId && o.orders.orderStatus && o.orders.orderDate.Month == DateTime.Now.Month && o.orders.orderDate.Year == DateTime.Now.Year)
-        .Sum(o => o.products.TotalPrice);
+//    // Calculate Total Sales for this month
+//    var totalSalesThisMonth = db.ProductOrders
+//        .Where(o => o.products.sellerId == sellerId && o.orders.orderStatus && o.orders.orderDate.Month == DateTime.Now.Month && o.orders.orderDate.Year == DateTime.Now.Year)
+//        .Sum(o => o.products.TotalPrice);
 
-    // Calculate Average per item
-    var totalItemsSold = db.ProductOrders
-        .Where(op => op.products.sellerId == sellerId && op.orders.orderStatus)
-        .Sum(op => op.products.quantity);
+//    // Calculate Average per item
+//    var totalItemsSold = db.ProductOrders
+//        .Where(op => op.products.sellerId == sellerId && op.orders.orderStatus)
+//        .Sum(op => op.products.quantity);
 
-    var averagePerItem = totalItemsSold != 0 ? totalSales / totalItemsSold : 0;
+//    var averagePerItem = totalItemsSold != 0 ? totalSales / totalItemsSold : 0;
 
-    // Total Inventory by Category
-    var totalInventoryByCategory = db.Products
-        .Where(p => p.sellerId == sellerId)
-        .GroupBy(p => p.categoryId)
-        .Select(g => new TotalInventoryByCategoryDTO
-        {
-            CategoryId = g.Key,
-            TotalInventory = g.Sum(p => p.quantity)
-        })
-        .ToList();
+//    // Total Inventory by Category
+//    var totalInventoryByCategory = db.Products
+//        .Where(p => p.sellerId == sellerId)
+//        .GroupBy(p => p.categoryId)
+//        .Select(g => new TotalInventoryByCategoryDTO
+//        {
+//            CategoryId = g.Key,
+//            TotalInventory = g.Sum(p => p.quantity)
+//        })
+//        .ToList();
 
-    // Orders that require shipping
-    var ordersRequiringShipping = db.Orders
-        .Where(o => o.sellerId == sellerId && o.orderStatus && o.requiresShipping)
-        .Select(o => new
-        {
-            o.id,
-            o.customerId,
-            o.paymentTypeId,
-            o.orderStatus,
-            o.orderDate,
-            o.sellerId
-        })
-        .ToList();
+//    // Orders that require shipping
+//    var ordersRequiringShipping = db.Orders
+//        .Where(o => o.sellerId == sellerId && o.orderStatus && o.requiresShipping)
+//        .Select(o => new
+//        {
+//            o.id,
+//            o.customerId,
+//            o.paymentTypeId,
+//            o.orderStatus,
+//            o.orderDate,
+//            o.sellerId
+//        })
+//        .ToList();
 
-    var dashboardData = new
-    {
-        TotalSales = new TotalSalesDTO { TotalSales = totalSales },
-        TotalSalesThisMonth = new TotalSalesThisMonthDTO { TotalSalesThisMonth = totalSalesThisMonth },
-        AveragePerItem = new AveragePerItemDTO { AveragePerItem = averagePerItem },
-        TotalInventoryByCategory = totalInventoryByCategory,
-        OrdersRequiringShipping = ordersRequiringShipping
-    };
+//    var dashboardData = new
+//    {
+//        TotalSales = new TotalSalesDTO { TotalSales = totalSales },
+//        TotalSalesThisMonth = new TotalSalesThisMonthDTO { TotalSalesThisMonth = totalSalesThisMonth },
+//        AveragePerItem = new AveragePerItemDTO { AveragePerItem = averagePerItem },
+//        TotalInventoryByCategory = totalInventoryByCategory,
+//        OrdersRequiringShipping = ordersRequiringShipping
+//    };
 
-    return Results.Ok(dashboardData);
-});
+//    return Results.Ok(dashboardData);
+//});
 //Search for products based on the provided search terms
 app.MapGet("api/products/search", (BangazonDBContext db, string searchTerm) =>
 {
@@ -221,8 +218,8 @@ app.MapGet("/api/customers/{customerId}/orders", (BangazonDBContext db, int cust
     // Retrieve the order history of the specified customer
     var orderHistory = db.Orders
         .Where(o => o.customerId == customerId)
-        .Include(o => o.Products)
-            .ThenInclude(op => op.productOrders)
+        //.Include(o => o.Products)
+         //   .ThenInclude(op => op.productOrders)
         .OrderByDescending(o => o.orderDate)
         .ToList();
 
@@ -250,30 +247,30 @@ app.MapPost("/api/products", async (BangazonDBContext db, Product product) =>
     return Results.Created($"/api/products/{product.id}", product);
 });
 //Seller can view his past sells
-app.MapGet("/api/sellers/{sellerId}/sales", (BangazonDBContext db, int sellerId) =>
-{
-    // Retrieve past sales made by the specified seller
-    var sellerSales = db.ProductOrders
-        .Where(po => po.products.sellerId == sellerId && po.orders.orderStatus)
-        .Select(po => new
-        {
-            OrderId = po.orders.id,
-            ProductId = po.productId,
-            ProductName = po.products.title,
-            Quantity = po.products.quantity,
-            TotalPrice = po.products.TotalPrice,
-            OrderDate = po.orders.orderDate
-        })
-        .OrderByDescending(po => po.OrderDate)
-        .ToList();
+//app.MapGet("/api/sellers/{sellerId}/sales", (BangazonDBContext db, int sellerId) =>
+//{
+//    // Retrieve past sales made by the specified seller
+//    var sellerSales = db.ProductOrders
+//        //.Where(po => po.products.sellerId == sellerId && po.orders.orderStatus)
+//        .Select(po => new
+//        {
+//            OrderId = po.orders.id,
+//            ProductId = po.productId,
+//            ProductName = po.products.title,
+//            Quantity = po.products.quantity,
+//            TotalPrice = po.products.TotalPrice,
+//            OrderDate = po.orders.orderDate
+//        })
+//        .OrderByDescending(po => po.OrderDate)
+//        .ToList();
 
-    if (sellerSales.Count == 0)
-    {
-        return Results.NotFound("No sales found for the specified seller.");
-    }
+//    if (sellerSales.Count == 0)
+//    {
+//        return Results.NotFound("No sales found for the specified seller.");
+//    }
 
-    return Results.Ok(sellerSales);
-});
+//    return Results.Ok(sellerSales);
+//});
 // Users can view all product categories
 app.MapGet("/api/categories", (BangazonDBContext db) =>
 {
@@ -308,22 +305,22 @@ app.MapPost("/api/orders/checkout", async (BangazonDBContext db, HttpContext htt
         .Where(pt => pt.users.userId == customerId)
         .ToListAsync();
 
-    // Check if the specified payment type belongs to the customer
-    var selectedPaymentType = customerPaymentTypes.FirstOrDefault(pt => pt.id == paymentTypeId);
-    if (selectedPaymentType == null)
-    {
-        return Results.BadRequest("Invalid payment type selected. Please choose a payment type associated with the customer.");
-    }
+    //// Check if the specified payment type belongs to the customer
+    //var selectedPaymentType = customerPaymentTypes.FirstOrDefault(pt => pt.id == paymentTypeId);
+    //if (selectedPaymentType == null)
+    //{
+    //    return Results.BadRequest("Invalid payment type selected. Please choose a payment type associated with the customer.");
+    //}
 
-    // Get the customer's shopping cart
-    var shoppingCart = await db.ProductOrders
-        .Include(sc => sc.products)
-        .FirstOrDefaultAsync(sc => sc.orders.customerId == customerId);
+    //// Get the customer's shopping cart
+    //var shoppingCart = await db.ProductOrders
+    //    .Include(sc => sc.products)
+    //    .FirstOrDefaultAsync(sc => sc.orders.customerId == customerId);
 
-    if (shoppingCart == null )
-    {
-        return Results.BadRequest("Shopping cart is empty.");
-    }
+    //if (shoppingCart == null )
+    //{
+    //    return Results.BadRequest("Shopping cart is empty.");
+    //}
 
     // Create an order from the shopping cart
     var order = new Order
@@ -338,9 +335,9 @@ app.MapPost("/api/orders/checkout", async (BangazonDBContext db, HttpContext htt
     db.Orders.Add(order);
     await db.SaveChangesAsync();
 
-    // Clear the customer's shopping cart
-    db.ProductOrders.Remove(shoppingCart);
-    await db.SaveChangesAsync();
+    //// Clear the customer's shopping cart
+    //db.ProductOrders.Remove(shoppingCart);
+    //await db.SaveChangesAsync();
 
     return Results.Created($"/api/orders/{order.id}", order);
 });

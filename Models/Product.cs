@@ -13,16 +13,16 @@ namespace bangAzon.Models
 		public int customerId { get; set; }
 		public DateTime createDate { get; set; }
 
-		public ICollection<ProductOrder> productOrders { get; set; }
-		public ICollection<User> users { get; set; }
+		//public ICollection<ProductOrder> productOrders { get; set; }
+		//public ICollection<User> users { get; set; }
 
-		public decimal TotalPrice
-		{
-			get
-			{ 			
-				return unitPrice * quantity;
-			}
-		}
+		//public decimal TotalPrice
+		//{
+		//	get
+		//	{ 			
+		//		return unitPrice * quantity;
+		//	}
+		//}
 	}
 }
 
